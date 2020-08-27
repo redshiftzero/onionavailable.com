@@ -1,0 +1,30 @@
+---
+common:
+  - &install_dependencies_and_scan_sites
+    run:
+      name: Install dependencies and scam sites/
+      command: |
+        virtualenv --python python3 .venv
+        source .venv/bin/activate
+        pip install -r requirements.txt
+        python3 scan.py
+      no_output_timeout: 10m
+
+version: 2
+jobs:
+  build37:
+    docker:
+      - image: circleci/python:buster
+    steps:
+      - checkout
+      - *install_dependencies_and_scan_sites
+
+workflows:
+  version: 2
+  jobs_per_pr:
+    jobs:
+      - build37:
+          filters:
+            branches:
+              ignore:
+                - main
