@@ -1,0 +1,86 @@
+@font-face {
+    font-family: 'Open Sans';
+    src: url('OpenSans-Light.ttf') format('truetype');
+  }
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    width: auto;
+    max-width: 680px;
+    padding: 0 15px 30px;
+}
+
+.rounded {
+    border-radius: 25px;
+    background: #6200A4;
+    padding: 5px;
+    color: #ffffff;
+  }
+
+.jumbotron {
+    background: rgb(34,193,195);
+    color: #eeeeee;
+    background: linear-gradient(141deg, rgba(34,193,195,1) 0%, rgba(9,9,121,1) 100%);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.about-text a:link, .about-text a:visited {
+    color:#bebebe;
+}
+
+.about-text a:hover, .about-text a:active {
+    color:#bebebe;
+    text-decoration: underline;
+}
+
+.jumbotron-button {
+    color: #eeeeee;
+}
+
+.jumbotron-button a:link, .jumbotron-button a:visited {
+    color: #eeeeee;
+    text-decoration: none;
+}
+
+.jumbotron-button a:hover, .jumbotron-button a:active {
+    color: #eeeeee;
+    text-decoration: none;
+}
+
+.list-group-item {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.about-text {
+    color: #eeeeee;
+    font-size: large;
+}
+
+.footer {
+    border-top: 1px solid #eeeeee;
+    background-color: #ffffff;
+}
+
+a:link {
+    color: #222831;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #222831;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #bebebe;
+    text-decoration: none;
+}
+
+a:active {
+    color: #bebebe;
+    text-decoration: dotted;
+}
