@@ -1,3 +1,4 @@
+from datetime import datetime
 import enum
 import json
 from markupsafe import escape
@@ -94,6 +95,11 @@ def regenerate_site(scan_data: Dict) -> None:
             site_after += NO_ONION + site_link + TERMINATOR + '\n'
         else:
             site_after += NO_DATA + site_link + TERMINATOR + '\n'
+
+    now = datetime.now()
+    last_updated_timestamp = '<li class="list-last-updated">Last updated: {}</li>'.format(
+        now.strftime("%m/%d/%Y, %H:%M:%S"))
+    site_after += last_updated_timestamp + '\n'
 
     site_after += '\n' + SENTINEL + '\n' + postfix
 
