@@ -2,7 +2,7 @@
 common:
   - &install_dependencies_and_scan_sites
     run:
-      name: Install dependencies and scam sites/
+      name: Install dependencies and scan sites/
       command: |
         virtualenv --python python3 .venv
         source .venv/bin/activate
