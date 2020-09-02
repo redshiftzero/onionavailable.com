@@ -45,7 +45,7 @@ class OnionService(enum.Enum):
 
 def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService], str]:
     try:
-        r = requests.get("http://" + url, timeout=5)
+        r = requests.get("https://" + url, timeout=5)
         onion_url = r.headers["Onion-Location"]
         version = OnionService.from_str(onion_url)
         return True, version, onion_url
