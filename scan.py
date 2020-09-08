@@ -1,9 +1,11 @@
 from datetime import datetime
 import enum
 import json
+from lxml import html
 from markupsafe import escape
 import requests
 from urllib.parse import urlparse
+
 
 from typing import Dict, List, Optional, Tuple
 
@@ -50,7 +52,14 @@ def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService],
         version = OnionService.from_str(onion_url)
         return True, version, onion_url
     except KeyError:
-        return False, None, None
+        # Even if the header is missing, the onion URL could be in a meta tag.
+        tree = html.fromstring(r.content)
+        onion_url = tree.xpath('//meta[@http-equiv="onion-location"]/@content')
+        if onion_url:
+            version = OnionService.from_str(onion_url)
+            return True, version, onion_url
+        else:
+            return False, None, None
     except Exception as e:
         # Unexpected exceptions we just print the exception for later inspection
         # (if we raise other sites will fail to scan) and return that the site is unscannable.
