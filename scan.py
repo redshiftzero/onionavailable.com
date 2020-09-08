@@ -1,7 +1,8 @@
 from datetime import datetime
 import enum
 import json
-import pshtt
+from pshtt.pshtt import inspect_domains
+from pshtt.utils import format_domains
 from markupsafe import escape
 from urllib.parse import urlparse
 
@@ -66,9 +67,11 @@ def is_onion_available(pshtt_results) -> Tuple[bool, Optional[str]]:
 
 def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService], str]:
     try:
-        domain = pshtt.utils.format_domains(("https://" + url)
-        pshtt_results = pshtt.inspect_domains(domain)
-        _, onion_url = onion_available(pshtt_results)
+        domains = format_domains([url])
+        pshtt_results = inspect_domains(domains, {})
+        # inspect_domains returns a generator, so we convert to list and access
+        # the first element.
+        _, onion_url = is_onion_available(list(pshtt_results)[0])
         version = OnionService.from_str(onion_url)
         return True, version, onion_url
     except KeyError:
