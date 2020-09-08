@@ -66,7 +66,7 @@ def is_onion_available(pshtt_results) -> Tuple[bool, Optional[str]]:
 
 def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService], str]:
     try:
-        domain = utils.format_domains(("https://" + url)
+        domain = pshtt.utils.format_domains(("https://" + url)
         pshtt_results = pshtt.inspect_domains(domain)
         _, onion_url = onion_available(pshtt_results)
         version = OnionService.from_str(onion_url)
