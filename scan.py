@@ -1,8 +1,8 @@
 from datetime import datetime
 import enum
 import json
+import pshtt
 from markupsafe import escape
-import requests
 from urllib.parse import urlparse
 
 from typing import Dict, List, Optional, Tuple
@@ -43,10 +43,32 @@ class OnionService(enum.Enum):
             raise ValueError(f"invalid URL: {url.netloc}")
 
 
+def is_onion_available(pshtt_results) -> Tuple[bool, Optional[str]]:
+    """
+    For HTTPS sites, we inspect the headers to see if the
+    Onion-Location header is present, indicating that the
+    site is available as an onion service.
+    """
+    onion_available = False
+    onion_url = None
+
+    for key in ["https", "httpswww"]:
+        try:
+            headers = pshtt_results["endpoints"][key]["headers"]
+            if 'onion-location' in set(k.lower() for k in headers):
+                onion_available = True
+                onion_url = headers['onion-location']
+        except KeyError:
+            pass
+
+    return onion_available, onion_url
+
+
 def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService], str]:
     try:
-        r = requests.get("https://" + url, timeout=5)
-        onion_url = r.headers["Onion-Location"]
+        domain = utils.format_domains(("https://" + url)
+        pshtt_results = pshtt.inspect_domains(domain)
+        _, onion_url = onion_available(pshtt_results)
         version = OnionService.from_str(onion_url)
         return True, version, onion_url
     except KeyError:
