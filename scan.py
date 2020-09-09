@@ -54,10 +54,12 @@ def has_onion_service(url: str) -> Tuple[Optional[bool], Optional[OnionService],
     except KeyError:
         # Even if the header is missing, the onion URL could be in a meta tag.
         tree = html.fromstring(r.content)
-        onion_url = tree.xpath('//meta[@http-equiv="onion-location"]/@content')
-        if onion_url:
-            version = OnionService.from_str(onion_url)
-            return True, version, onion_url
+        matching_meta_tags = tree.xpath('//meta[@http-equiv="onion-location"]/@content')
+        if matching_meta_tags:
+            # If we see more than one onion-location meta tag, we raise AssertionError:
+            assert len(matching_meta_tags) == 1
+            version = OnionService.from_str(matching_meta_tags[0])
+            return True, version, matching_meta_tags[0]
         else:
             return False, None, None
     except Exception as e:
@@ -71,6 +73,7 @@ def update_sites(sites: List[str]) -> Dict:
     results = {}
     for site in sites:
         has_onion, version, onion_url = has_onion_service(site)
+        site = site.lstrip('www.')
         results.update(
             {
                 site: {
