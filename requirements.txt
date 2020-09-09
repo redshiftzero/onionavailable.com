@@ -1,2 +1,4 @@
+certifi
+lxml
 requests
 MarkupSafe

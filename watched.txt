@@ -1,5 +1,5 @@
 torproject.org
-propublica.org
+www.propublica.org
 freedom.press
 securedrop.org
 nytimes.com
@@ -18,7 +18,7 @@ frontlinedefenders.org
 keybase.io
 qubes-os.org
 onionshare.org
-bbcnews.com
+bbc.com
 privacyinternational.org
 decoded.legal
 cia.gov
